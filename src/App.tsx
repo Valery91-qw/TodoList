@@ -3,6 +3,13 @@ import {v1} from 'uuid';
 import './App.css';
 import {FilterType, TaskType, Todolist} from "./component/Todolist";
 import {AddItemForm} from "./component/addItemForm/AddItemForm";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import {Container, Grid, Paper} from "@material-ui/core";
 
 
 type TodolistType = {
@@ -102,7 +109,22 @@ function App() {
 
     return (
         <div className="App">
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6">
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: "20px"}}>
             <AddItemForm addItem={addTodolist} />
+                </Grid>
+                <Grid container spacing={3}>
             {
                 todoLists.map(todolist => {
                     // создается переменная которой присвивается весь исходный массив
@@ -116,7 +138,9 @@ function App() {
                     if (todolist.filter === "completed") {
                         tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
                     }
-                    return <Todolist title={todolist.title}
+                    return<Grid item>
+                        <Paper style={{padding: "10px"}}>
+                        <Todolist title={todolist.title}
                                      key={todolist.id}
                                      id={todolist.id}
                                      removeTask={removeTask}
@@ -128,9 +152,12 @@ function App() {
                                      changeTaskTitle={changeTaskTitle}
                                      filter={todolist.filter}
                                      changeTaskStatus={changeTaskStatus}/>
+                        </Paper>
+                    </Grid>
                 })
             }
-
+                </Grid>
+            </Container>
         </div>
     );
 }
