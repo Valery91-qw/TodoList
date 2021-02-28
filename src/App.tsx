@@ -12,12 +12,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {Container, Grid, Paper} from "@material-ui/core";
 
 
-type TodolistType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterType
 }
-type TasksStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
