@@ -4,7 +4,9 @@ import {FilterType} from "../component/Todolist";
 
 type ActionType = RemoveTodolistActionType | addTodolistActionType | changeTodolistTitleActionType | changeTodolistFilterActionType
 
-export const todolistsReducer = (state: Array<TodolistType>, action: ActionType) => {
+const initialState: Array<TodolistType> = []
+
+export const todolistsReducer = (state: Array<TodolistType> = initialState, action: ActionType): Array<TodolistType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(todo => todo.id !== action.todoId)
@@ -17,7 +19,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionType)
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(tl => tl.id === action.todoId ? {...tl, filter: action.filter} : tl)
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 

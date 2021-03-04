@@ -1,10 +1,11 @@
 import {addTask, changeTaskStatus, changeTaskTitle, removeTask, tasksReducer} from './tasks-reducer';
 import {TasksStateType} from '../App';
-import {TaskType} from "../component/Todolist";
 
-test('correct task should be deleted from correct array', () => {
+let startState: TasksStateType = {}
 
-    const startState: TasksStateType = {
+beforeEach(() => {
+
+    startState = {
         "todolistId1": [
             { id: "1", title: "CSS", isDone: false },
             { id: "2", title: "JS", isDone: true },
@@ -16,6 +17,11 @@ test('correct task should be deleted from correct array', () => {
             { id: "3", title: "tea", isDone: false }
         ]
     };
+
+})
+
+
+test('correct task should be deleted from correct array', () => {
 
     const action = removeTask("2", "todolistId2");
 
@@ -35,18 +41,6 @@ test('correct task should be deleted from correct array', () => {
 
 });
 test('correct task should be added to correct array', () => {
-    const startState: TasksStateType = {
-        "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
-        ],
-        "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
-        ]
-    };
 
     const action = addTask("juce", "todolistId2");
 
@@ -59,18 +53,6 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId2"][0].isDone).toBe(false);
 })
 test('status of specified task should be changed', () => {
-    const startState: TasksStateType = {
-        "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
-        ],
-        "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
-        ]
-    };
 
     const action = changeTaskStatus(false, "todolistId2", "2");
 
@@ -80,18 +62,6 @@ test('status of specified task should be changed', () => {
     expect(endState["todolistId2"][0].isDone).toBe(false);
 });
 test('title of specified task should be changed', () => {
-    const startState: TasksStateType = {
-        "todolistId1": [
-            { id: "1", title: "CSS", isDone: false },
-            { id: "2", title: "JS", isDone: true },
-            { id: "3", title: "React", isDone: false }
-        ],
-        "todolistId2": [
-            { id: "1", title: "bread", isDone: false },
-            { id: "2", title: "milk", isDone: true },
-            { id: "3", title: "tea", isDone: false }
-        ]
-    };
 
     const newTitle = "Some"
 
