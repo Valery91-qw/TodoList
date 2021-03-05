@@ -2,8 +2,8 @@ import React from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import {Meta, Story} from "@storybook/react/types-6-0";
 import {action} from "@storybook/addon-actions";
-import { Task } from "./Task";
 import {Todolist, TodolistPropsType} from "./Todolist";
+import {TaskPriorities, TaskStatuses} from "../Dal/api";
 
 
 export default {
@@ -37,8 +37,26 @@ TodolistExample.args = {
     ...baseArg,
     title: "myTodo",
     id: "todolistId",
-    tasks: [{id: "1", isDone: true, title: "Redux"},
-            {id: "1", isDone: false, title: "React"}
+    tasks: [{
+        id: "1",
+        status: TaskStatuses.New,
+        title: "Redux",
+        todoListId: "todolistId",
+        order: 0, addedDate: '',
+        deadline: '', description: '',
+        priority: TaskPriorities.Low,
+        startDate: ''
+    },
+        {
+            id: "1",
+            status: TaskStatuses.Completed,
+            title: "React",
+            todoListId: "todolistId",
+            order: 0, addedDate: '',
+            deadline: '', description: '',
+            priority: TaskPriorities.Low,
+            startDate: ''
+        }
     ]
 
 };

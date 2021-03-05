@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {FilterType, TaskType, Todolist} from "./component/Todolist";
+import {Todolist} from "./component/Todolist";
 import {AddItemForm} from "./component/addItemForm/AddItemForm";
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,14 +12,16 @@ import {Container, Grid, Paper} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./Bll/store";
 import {addTask, changeTaskStatus, changeTaskTitle, removeTask} from "./Bll/tasks-reducer";
-import {addTodolist, changeTodolistFilter, changeTodolistTitle, removeTodoList} from "./Bll/todolists-reducer";
+import {
+    addTodolist,
+    changeTodolistFilter,
+    changeTodolistTitle,
+    FilterType,
+    removeTodoList,
+    TodolistDomainType
+} from "./Bll/todolists-reducer";
+import {TaskStatuses, TaskType} from "./Dal/api";
 
-
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterType
-}
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -27,7 +29,7 @@ export type TasksStateType = {
 function App() {
 
 
-    const todoLists = useSelector<RootStateType, Array<TodolistType>>(state => state.todolists)
+    const todoLists = useSelector<RootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<RootStateType, TasksStateType>(state => state.tasks)
     const dispatch = useDispatch()
 
@@ -36,8 +38,8 @@ function App() {
     }, [dispatch])
 
     // фильтрация тасок
-    const changeTaskStatusCallback = useCallback( (id: string, isDone: boolean, todolistId: string) => {
-        dispatch(changeTaskStatus(isDone, todolistId, id))
+    const changeTaskStatusCallback = useCallback( (id: string, status: TaskStatuses, todolistId: string) => {
+        dispatch(changeTaskStatus(status, todolistId, id))
     }, [dispatch] )
 
     const changeTaskTitleCallback = useCallback( (newTitle: string, id: string, todolistId: string) => {

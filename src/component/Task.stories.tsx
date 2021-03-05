@@ -2,8 +2,8 @@ import React from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import {Meta, Story} from "@storybook/react/types-6-0";
 import {action} from "@storybook/addon-actions";
-import { Task, TaskPropsType} from "./Task";
-import {changeTaskStatus, changeTaskTitle, removeTask} from "../Bll/tasks-reducer";
+import {Task, TaskPropsType} from "./Task";
+import {TaskStatuses} from "../Dal/api";
 
 
 export default {
@@ -27,7 +27,7 @@ export const TaskIsDoneExample = Template.bind({});
 TaskIsDoneExample.args = {
    ...baseArg,
     title: 'React',
-    isDone: true,
+    status: TaskStatuses.Completed,
     id: '2',
     todoId: 'todolistId1'
 };
@@ -36,7 +36,7 @@ export const TaskNotDoneExample = Template.bind({});
 TaskNotDoneExample.args = {
     ...baseArg,
     title: 'Lazy',
-    isDone: false,
+    status: TaskStatuses.New,
     id: '1',
     todoId: 'todolistId1'
 };

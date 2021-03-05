@@ -1,20 +1,15 @@
-import React, {ChangeEvent, useCallback} from "react";
+import React, {useCallback} from "react";
 import {AddItemForm} from "./addItemForm/AddItemForm";
 import {EditableSpan} from "./editableSpan/EditableSpan";
-import {Button, Checkbox, IconButton} from "@material-ui/core";
+import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "./Task";
+import {FilterType} from "../Bll/todolists-reducer";
+import {TaskStatuses, TaskType} from "../Dal/api";
 
-export type FilterType = "all" | "active" | "completed"
-
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 export type TodolistPropsType = {
-    changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void
+    changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     changeTodolistFilter: (filter: FilterType, todolistId: string) => void
     removeTask: (id: string, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
@@ -49,10 +44,10 @@ export const Todolist = React.memo( (props: TodolistPropsType) => {
     let tasksForTodo = props.tasks
 
     if(props.filter === 'active') {
-        tasksForTodo = props.tasks.filter(task => !task.isDone)
+        tasksForTodo = props.tasks.filter(task => task.status === TaskStatuses.New)
     }
     if(props.filter === 'completed') {
-        tasksForTodo = props.tasks.filter(task => task.isDone)
+        tasksForTodo = props.tasks.filter(task => task.status === TaskStatuses.Completed)
     }
 
     return (
@@ -71,7 +66,7 @@ export const Todolist = React.memo( (props: TodolistPropsType) => {
                     tasksForTodo.map(task => {
                         return <Task key={task.id}
                                      id={task.id}
-                                     isDone={task.isDone}
+                                     status={task.status}
                                      title={task.title}
                                      todoId={props.id}
                                      changeTaskStatus={props.changeTaskStatus}
