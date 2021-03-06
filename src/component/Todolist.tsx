@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "./addItemForm/AddItemForm";
 import {EditableSpan} from "./editableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
@@ -6,6 +6,8 @@ import {Delete} from "@material-ui/icons";
 import {Task} from "./Task";
 import {FilterType} from "../Bll/todolists-reducer";
 import {TaskStatuses, TaskType} from "../Dal/api";
+import {useDispatch} from "react-redux";
+import {fetchTasks} from "../Bll/tasks-reducer";
 
 
 export type TodolistPropsType = {
@@ -14,32 +16,36 @@ export type TodolistPropsType = {
     removeTask: (id: string, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     removeTodolist: (id: string) => void
-    changeTaskTitle: (id: string, newTitle: string, todolistId: string) => void
+    changeTaskTitle: (todolistId: string, id: string, newTitle: string) => void
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
-    id: string
+    todoId: string
     title: string
     tasks: Array<TaskType>
     filter: FilterType
 }
 
 export const Todolist = React.memo( (props: TodolistPropsType) => {
-    console.log("Todolist called")
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTasks(props.todoId))
+    }, [dispatch, props.todoId])
 
     // добовление таски
     const addTask = useCallback( (title: string) => {
-            props.addTask(title, props.id)
+            props.addTask(title, props.todoId)
     },[props])
     const onChangeTodolistTitle = useCallback( (newTitle: string) => {
-        props.changeTodolistTitle(newTitle, props.id)
+        props.changeTodolistTitle(newTitle, props.todoId)
     }, [props] )
     // удаление тудулиста
     const removeTodolist = useCallback( () => {
-        props.removeTodolist(props.id)
-    } , [props] )
-    // пачка колюэков на кнопки для фильтрации
-    const onAllClickHandler = useCallback( () => props.changeTodolistFilter('all', props.id) ,[props] )
-    const onActiveClickHandler = useCallback( () => props.changeTodolistFilter('active', props.id), [props] )
-    const onCompleteClickHandler = useCallback( () => props.changeTodolistFilter('completed', props.id), [props])
+        props.removeTodolist(props.todoId)
+    } , [props] )   // пачка колюэков на кнопки для фильтрации
+    const onAllClickHandler = useCallback( () => props.changeTodolistFilter('all', props.todoId) ,[props] )
+    const onActiveClickHandler = useCallback( () => props.changeTodolistFilter('active', props.todoId), [props] )
+    const onCompleteClickHandler = useCallback( () => props.changeTodolistFilter('completed', props.todoId), [props])
 
     let tasksForTodo = props.tasks
 
@@ -68,7 +74,7 @@ export const Todolist = React.memo( (props: TodolistPropsType) => {
                                      id={task.id}
                                      status={task.status}
                                      title={task.title}
-                                     todoId={props.id}
+                                     todoId={props.todoId}
                                      changeTaskStatus={props.changeTaskStatus}
                                      removeTask={props.removeTask}
                                      changeTaskTitle={props.changeTaskTitle}/>

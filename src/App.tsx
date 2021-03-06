@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./component/Todolist";
 import {AddItemForm} from "./component/addItemForm/AddItemForm";
@@ -11,16 +11,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {Container, Grid, Paper} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./Bll/store";
-import {addTask, changeTaskStatus, changeTaskTitle, removeTask} from "./Bll/tasks-reducer";
+import {createTask, deleteTask, updateTask} from "./Bll/tasks-reducer";
 import {
     addTodolist,
     changeTodolistFilter,
-    changeTodolistTitle,
+    changeTodolistTitle, createTodolist, deleteTodolis, fetchTodolists,
     FilterType,
     removeTodoList,
-    TodolistDomainType
+    TodolistDomainType, updateTodolis
 } from "./Bll/todolists-reducer";
-import {TaskStatuses, TaskType} from "./Dal/api";
+import { TaskStatuses, TaskType} from "./Dal/api";
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -29,30 +29,37 @@ export type TasksStateType = {
 function App() {
 
 
+
     const todoLists = useSelector<RootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<RootStateType, TasksStateType>(state => state.tasks)
     const dispatch = useDispatch()
 
-    const addTaskCallback = useCallback( (title: string, todolistId: string) => {
-        dispatch(addTask(title, todolistId))
+    useEffect(() => {
+        dispatch(fetchTodolists())
+    }, [dispatch])
+
+    // добовление таски
+    const addTaskCallback = useCallback( ( title: string,todolistId: string) => {
+       dispatch(createTask(todolistId, title))
     }, [dispatch])
 
     // фильтрация тасок
     const changeTaskStatusCallback = useCallback( (id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(changeTaskStatus(status, todolistId, id))
+        dispatch(updateTask(todolistId, id, {status}))
     }, [dispatch] )
 
-    const changeTaskTitleCallback = useCallback( (newTitle: string, id: string, todolistId: string) => {
-        dispatch(changeTaskTitle(newTitle, todolistId, id))
+    // изменение заголовка таски
+    const changeTaskTitleCallback = useCallback( ( todolistId: string, id: string, newTitle: string,) => {
+        dispatch(updateTask(todolistId,  id , {title: newTitle}))
     }, [dispatch] )
 
-    // удаление тасок сетает таски в стейт но только те что прошли проверку
-    const removeTaskCallback = useCallback( (id: string, todolistId: string) => {
-        dispatch(removeTask(id, todolistId))
+    // удаление тасок
+    const removeTaskCallback = useCallback( (todolistId: string, id: string) => {
+        dispatch(deleteTask(todolistId, id))
     },[dispatch] )
 
     const removeTodolistCallback = useCallback( (id: string) => {
-        dispatch(removeTodoList(id))
+        dispatch(deleteTodolis(id))
     }, [dispatch])
 
     const changeTodolistFilterCallback = useCallback( (filter: FilterType, todolistId: string) => {
@@ -60,11 +67,11 @@ function App() {
     }, [dispatch])
 
     const changeTodolistTitleCallback = useCallback ((newTitle: string, todolistId: string) => {
-        dispatch(changeTodolistTitle(newTitle, todolistId))
+        dispatch(updateTodolis(todolistId, newTitle))
     },[dispatch])
 
     const addTodolistCallback = useCallback( (title: string) => {
-        dispatch(addTodolist(title))
+        dispatch(createTodolist(title))
     },[dispatch] )
 
 
@@ -95,7 +102,7 @@ function App() {
                                 <Paper  style={{padding: "10px"}}>
                                     <Todolist title={todolist.title}
                                               key={todolist.id}
-                                              id={todolist.id}
+                                              todoId={todolist.id}
                                               removeTask={removeTaskCallback}
                                               tasks={allTodolistTasks}
                                               changeTodolistFilter={changeTodolistFilterCallback}

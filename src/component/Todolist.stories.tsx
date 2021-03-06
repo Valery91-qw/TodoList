@@ -36,7 +36,7 @@ export const TodolistExample = Template.bind({});
 TodolistExample.args = {
     ...baseArg,
     title: "myTodo",
-    id: "todolistId",
+    todoId: "todolistId",
     tasks: [{
         id: "1",
         status: TaskStatuses.New,
