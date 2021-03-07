@@ -74,7 +74,11 @@ const initialGlobalState = {
     },
     app: {
         status: 'succeeded',
-        error: null
+        error: null,
+        isInitialized: false
+    },
+    auth: {
+        isLoggedIn: true
     }
 };
 

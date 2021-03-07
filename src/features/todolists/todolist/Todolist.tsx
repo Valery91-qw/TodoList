@@ -20,9 +20,10 @@ export type TodolistPropsType = {
     changeTodolistTitle: (todolistId: string, newTitle: string) => void
     tasks: Array<TaskType>
     todolist: TodolistDomainType
+    demo?: boolean
 }
 
-export const Todolist = React.memo( (props: TodolistPropsType) => {
+export const Todolist = React.memo( ({demo = false, ...props}: TodolistPropsType) => {
 
     const dispatch = useDispatch()
 
