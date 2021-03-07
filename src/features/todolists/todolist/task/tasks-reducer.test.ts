@@ -1,5 +1,4 @@
-import {addTask, removeTask, tasksReducer, updateTaskAC} from './tasks-reducer';
-import {TasksStateType} from '../../../../app/App';
+import {addTask, removeTask, tasksReducer, TasksStateType, updateTaskAC} from './tasks-reducer';
 import {TaskPriorities, TaskStatuses} from "../../../../dal/api";
 
 let startState: TasksStateType = {}

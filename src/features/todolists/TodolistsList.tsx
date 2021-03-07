@@ -13,11 +13,13 @@ import {createTask, deleteTask, TasksStateType, updateTask} from "./todolist/tas
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../component/addItemForm/AddItemForm";
 import {Todolist} from "./todolist/Todolist";
+import {RequestStatusType} from "../../app/App-reducer";
 
 export const TodolistsList = () => {
 
     const todoLists = useSelector<RootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<RootStateType, TasksStateType>(state => state.tasks)
+    const status = useSelector<RootStateType, RequestStatusType>( state => state.app.status)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -61,7 +63,7 @@ export const TodolistsList = () => {
     },[dispatch] )
 
     return <><Grid container style={{padding: "20px"}}>
-        <AddItemForm addItem={addTodolistCallback}/>
+        <AddItemForm addItem={addTodolistCallback} disabled={status === 'loading'}/>
     </Grid>
         <Grid container spacing={3}>
             {
@@ -71,9 +73,8 @@ export const TodolistsList = () => {
 
                     return <Grid item key={todolist.id}>
                         <Paper  style={{padding: "10px"}}>
-                            <Todolist title={todolist.title}
+                            <Todolist todolist={todolist}
                                       key={todolist.id}
-                                      todoId={todolist.id}
                                       removeTask={removeTaskCallback}
                                       tasks={allTodolistTasks}
                                       changeTodolistFilter={changeTodolistFilterCallback}
@@ -81,7 +82,6 @@ export const TodolistsList = () => {
                                       changeTodolistTitle={changeTodolistTitleCallback}
                                       removeTodolist={removeTodolistCallback}
                                       changeTaskTitle={changeTaskTitleCallback}
-                                      filter={todolist.filter}
                                       changeTaskStatus={changeTaskStatusCallback}/>
                         </Paper>
                     </Grid>

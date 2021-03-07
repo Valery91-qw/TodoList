@@ -35,8 +35,14 @@ const baseArg = {
 export const TodolistExample = Template.bind({});
 TodolistExample.args = {
     ...baseArg,
-    title: "myTodo",
-    todoId: "todolistId",
+    todolist: {
+        entityStatus: 'idle',
+        id: "todolistId",
+        title:  "myTodo",
+        filter: "all",
+        order: 0,
+        addedDate: ''
+    },
     tasks: [{
         id: "1",
         status: TaskStatuses.New,

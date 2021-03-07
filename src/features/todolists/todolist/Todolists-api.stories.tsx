@@ -6,13 +6,6 @@ export default {
     title: 'API'
 }
 
-const settings = {
-    withCredentials: true,
-    headers: {
-        'API-KEY': 'fc503820-69cf-441a-add2-ccdccedc3a76'
-    }
-}
-
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
