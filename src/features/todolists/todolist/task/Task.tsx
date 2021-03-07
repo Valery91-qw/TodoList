@@ -1,9 +1,9 @@
 import {Checkbox, IconButton} from "@material-ui/core";
-import {EditableSpan} from "./editableSpan/EditableSpan";
+import {EditableSpan} from "../../../../component/editableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import React, {ChangeEvent, useCallback} from "react";
-import {TaskStatuses} from "../Dal/api";
-
+import {TaskStatuses} from "../../../../dal/api";
+// Types
 export type TaskPropsType = {
     id: string
     status: TaskStatuses
@@ -13,7 +13,6 @@ export type TaskPropsType = {
     changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     todoId: string
 }
-
 
 export const Task = React.memo( (props: TaskPropsType) => {
 
@@ -35,3 +34,4 @@ export const Task = React.memo( (props: TaskPropsType) => {
         </IconButton>
     </div>
 } )
+

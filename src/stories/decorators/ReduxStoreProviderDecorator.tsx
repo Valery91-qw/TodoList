@@ -1,11 +1,11 @@
 import React from "react";
 import {Provider} from "react-redux";
 import {combineReducers, createStore} from "redux";
-import {tasksReducer} from "../../Bll/tasks-reducer";
-import {todolistsReducer} from "../../Bll/todolists-reducer";
+import {tasksReducer} from "../../features/todolists/todolist/task/tasks-reducer";
+import {todolistsReducer} from "../../features/todolists/todolists-reducer";
 import {v1} from "uuid";
-import {RootStateType} from "../../Bll/store";
-import {TaskPriorities, TaskStatuses} from "../../Dal/api";
+import {RootStateType} from "../../app/store";
+import {TaskPriorities, TaskStatuses} from "../../dal/api";
 
 
 

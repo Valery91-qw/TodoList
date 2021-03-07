@@ -33,7 +33,12 @@ test('correct todolist should be added', () => {
 
     let newTodolistTitle = "New Todolist";
 
-    const action = addTodolist(newTodolistTitle)
+    const action = addTodolist({
+        id: newTodolistTitle,
+        addedDate: '',
+        order: 0,
+        title: newTodolistTitle
+    })
 
     const endState = todolistsReducer(startState, action)
 
