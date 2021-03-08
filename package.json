@@ -1,7 +1,7 @@
 {
   "name": "todolist_present",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "homepage":"https://Valery91-qw.github.io/Todolist",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
