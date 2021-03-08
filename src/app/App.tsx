@@ -52,7 +52,7 @@ function App({demo = false}: PropsType) {
                     <Typography variant="h6">
                         News
                     </Typography>
-                    {isLoggedIn && <Button color="inherit" onClick={logoutHandler}>log out</Button>}
+                    {isLoggedIn && <Button style={{marginLeft : 'auto'}} color="inherit" onClick={logoutHandler}>log out</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress color="secondary"/>}
             </AppBar>
