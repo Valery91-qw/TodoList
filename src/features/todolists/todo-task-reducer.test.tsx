@@ -7,10 +7,12 @@ test('ids should be equals', () => {
     const startTodolistsState: Array<TodolistDomainType> = [];
 
     const action = addTodolist({
-        id: "New Todolist",
-        addedDate: '',
-        order: 0,
-        title: "New Todolist"
+        todolist: {
+            id: "New Todolist",
+            addedDate: '',
+            order: 0,
+            title: "New Todolist"
+        }
     });
 
     const endTasksState = tasksReducer(startTasksState, action)
@@ -20,8 +22,8 @@ test('ids should be equals', () => {
     const idFromTasks = keys[0];
     const idFromTodolists = endTodolistsState[0].id;
 
-    expect(idFromTasks).toBe(action.todolist.id);
-    expect(idFromTodolists).toBe(action.todolist.id);
+    expect(idFromTasks).toBe(action.payload.todolist.id);
+    expect(idFromTodolists).toBe(action.payload.todolist.id);
 });
 
 test('property with todolistId should be deleted', () => {
@@ -104,7 +106,7 @@ test('property with todolistId should be deleted', () => {
         ]
     };
 
-    const action = removeTodoList("todolistId2");
+    const action = removeTodoList({id: "todolistId2"});
 
     const endState = tasksReducer(startState, action)
 

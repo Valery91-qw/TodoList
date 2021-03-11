@@ -8,11 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {CircularProgress, Container, LinearProgress} from "@material-ui/core";
 import {TodolistsList} from "../features/todolists/TodolistsList";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import {RootStateType} from "./store";
 import {initializeApp, RequestStatusType} from "./App-reducer";
 import {ErrorSnackbar} from "../component/errorSnackbar/ErrorSnackbar";
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect, HashRouter} from 'react-router-dom';
 import {Login} from "../features/login/Login";
 import {logout} from "../features/login/auth-reducer";
 
@@ -42,6 +42,7 @@ function App({demo = false}: PropsType) {
     }
 
     return (
+        <HashRouter>
         <div className="App">
             <ErrorSnackbar/>
             <AppBar position="static">
@@ -65,6 +66,7 @@ function App({demo = false}: PropsType) {
                 </Switch>
             </Container>
         </div>
+        </HashRouter>
     );
 }
 

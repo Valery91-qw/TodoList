@@ -20,7 +20,7 @@ type PropsType = {
     demo?: boolean
 }
 
-export const TodolistsList = ({demo = false}) => {
+export const TodolistsList = ({demo = false}: PropsType) => {
 
     const todoLists = useSelector<RootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<RootStateType, TasksStateType>(state => state.tasks)
@@ -60,7 +60,7 @@ export const TodolistsList = ({demo = false}) => {
     }, [dispatch])
     // изменение отоброжающихся тасок в todolist
     const changeTodolistFilterCallback = useCallback((filter: FilterType, todolistId: string) => {
-        dispatch(changeTodolistFilter(filter, todolistId))
+        dispatch(changeTodolistFilter({filter: filter, id: todolistId}))
     }, [dispatch])
     // изменение заголовка todolist
     const changeTodolistTitleCallback = useCallback((newTitle: string, todolistId: string) => {

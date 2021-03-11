@@ -22,7 +22,7 @@ beforeEach(() => {
 
 test('correct todolist should be removed', () => {
 
-    const action = removeTodoList(todolistId1)
+    const action = removeTodoList({id: todolistId1})
 
     const endState = todolistsReducer(startState, action)
 
@@ -34,11 +34,12 @@ test('correct todolist should be added', () => {
     let newTodolistTitle = "New Todolist";
 
     const action = addTodolist({
-        id: newTodolistTitle,
-        addedDate: '',
-        order: 0,
-        title: newTodolistTitle
-    })
+     todolist : {
+         id: newTodolistTitle,
+         addedDate: '',
+         order: 0,
+         title: newTodolistTitle
+     }})
 
     const endState = todolistsReducer(startState, action)
 
@@ -51,7 +52,7 @@ test('correct todolist should change its name', () => {
 
     let newTodolistTitle = "New Todolist";
 
-    const action = changeTodolistTitle(newTodolistTitle, todolistId2)
+    const action = changeTodolistTitle({title: newTodolistTitle, id: todolistId2})
 
     const endState = todolistsReducer(startState, action);
 
@@ -62,7 +63,7 @@ test('correct filter of todolist should be changed', () => {
 
     let newFilter: FilterType = "completed";
 
-    const action = changeTodolistFilter(newFilter,todolistId2)
+    const action = changeTodolistFilter({filter: newFilter, id: todolistId2})
 
     const endState = todolistsReducer(startState, action);
 

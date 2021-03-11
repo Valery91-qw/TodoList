@@ -2,11 +2,12 @@
   "name": "todolist_present",
   "version": "0.1.0",
   "private": false,
-  "homepage":"https://Valery91-qw.github.io/Todolist",
+  "homepage": "https://Valery91-qw.github.io/Todolist",
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
+    "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

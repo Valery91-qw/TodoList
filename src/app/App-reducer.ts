@@ -2,6 +2,7 @@ import {authAPI} from "../dal/api";
 import {Dispatch} from "redux";
 import {setIsLoggedIn} from "../features/login/auth-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: initialStateType = {
     status: 'idle',
@@ -9,48 +10,44 @@ const initialState: initialStateType = {
     isInitialized: false
 }
 
-type InitialStateType = typeof initialState
-
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return {...state, status: action.status}
-        case 'APP/SET-ERROR':
-            return {...state, error: action.error}
-        case 'APP/SET-IS-INITIALIED':
-            return {...state, isInitialized: action.value}
-        default:
-            return state
+export const slice = createSlice({
+    name: 'app',
+    initialState: initialState,
+    reducers: {
+        setAppStatus(state, action: PayloadAction<{status: RequestStatusType}>) {
+            state.status = action.payload.status
+        },
+        setAppError(state, action: PayloadAction<{error: string | null}>){
+            state.error = action.payload.error
+        },
+        setAppInitialized(state, action: PayloadAction<{value: boolean}>){
+            state.isInitialized = action.payload.value
+        }
     }
-}
+})
 
-//Action
-export const setAppStatus = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-export const setAppError = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-export const setAppInitialized = (value: boolean) => ({type: 'APP/SET-IS-INITIALIED', value} as const)
-//thunk
+export const appReducer = slice.reducer
+
+export const {setAppStatus, setAppError, setAppInitialized } = slice.actions
+
 export const initializeApp = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatus('loading'))
+    dispatch(setAppStatus({status :'loading'}))
     authAPI.me().then(res => {
         if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedIn(true));
-            dispatch(setAppStatus('succeeded'))
-        } else {
+            dispatch(setIsLoggedIn({value: true}));
+            dispatch(setAppStatus({ status: 'succeeded'}))
+        }
+        else {
             handleServerAppError(res.data, dispatch)
         }
-        dispatch(setAppInitialized(true));
+        dispatch(setAppInitialized({value: true}));
     })
         .catch((error) => {
             handleServerNetworkError(error, dispatch)
         })
 }
-// Types
-type ActionsType =
-    | ReturnType<typeof setAppInitialized>
-    | ReturnType<typeof setAppStatus>
-    | ReturnType<typeof setAppError>
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-type initialStateType = {
+export type initialStateType = {
     status: RequestStatusType
     error: string | null
     isInitialized: boolean
