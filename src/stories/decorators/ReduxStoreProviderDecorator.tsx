@@ -9,8 +9,7 @@ import {TaskPriorities, TaskStatuses} from "../../dal/api";
 import {appReducer} from "../../app/App-reducer";
 import {authReducer} from "../../features/login/auth-reducer";
 import thunk from "redux-thunk";
-import {Switch} from "react-router-dom";
-
+import {configureStore} from "@reduxjs/toolkit";
 
 
 const rootReducer = combineReducers({
@@ -27,13 +26,13 @@ const initialGlobalState: RootStateType = {
     ] ,
     tasks: {
         "todolistId1": [
-            {id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistId1", description: '',
+            {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, todoListId: "todolistId1", description: '',
                 startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
             {id: v1(), title: "JS", status: TaskStatuses.Completed, todoListId: "todolistId1", description: '',
                 startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
         ],
         "todolistId2": [
-            {id: v1(), title: "Milk", status: TaskStatuses.Completed, todoListId: "todolistId2", description: '',
+            {id: v1(), title: "Milk", status: TaskStatuses.New, todoListId: "todolistId2", description: '',
                 startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
             {id: v1(), title: "React Book", status: TaskStatuses.Completed, todoListId: "todolistId2", description: '',
                 startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
@@ -49,7 +48,11 @@ const initialGlobalState: RootStateType = {
     }
 };
 
-export const storyBookstore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
+export const storyBookstore = configureStore({
+    reducer: rootReducer,
+    preloadedState: initialGlobalState,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
+})
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => (
     <Provider store={storyBookstore}>

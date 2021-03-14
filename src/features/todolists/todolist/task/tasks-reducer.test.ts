@@ -1,5 +1,6 @@
 import {addTask, removeTask, tasksReducer, TasksStateType, updateTaskAC} from './tasks-reducer';
 import {TaskPriorities, TaskStatuses} from "../../../../dal/api";
+import {addTodolist} from "../../todolists-reducer";
 
 let startState: TasksStateType = {}
 
@@ -205,4 +206,6 @@ test('title of specified task should be changed', () => {
     expect(endState["todolistId2"][1].title).toBe(newTitle);
     expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
 });
+
+
 
