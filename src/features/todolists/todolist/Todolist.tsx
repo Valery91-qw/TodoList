@@ -13,7 +13,7 @@ import {fetchTasks} from "./task/tasks-reducer";
 export type TodolistPropsType = {
     changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void
     changeTodolistFilter: (filter: FilterType, todolistId: string) => void
-    removeTask: (id: string, todolistId: string) => void
+    removeTask: (taskId: string, todoId: string) => void
     addTask: (title: string, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTaskTitle: (todolistId: string, id: string, newTitle: string) => void

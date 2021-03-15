@@ -51,8 +51,8 @@ export const TodolistsList = ({demo = false}: PropsType) => {
     }, [dispatch])
 
     // удаление task
-    const removeTaskCallback = useCallback((todolistId: string, id: string) => {
-        dispatch(deleteTask(todolistId, id))
+    const removeTaskCallback = useCallback((taskId: string, todoId: string) => {
+        dispatch(deleteTask({taskId, todoId}))
     }, [dispatch])
     // удаление todolist
     const removeTodolistCallback = useCallback((id: string) => {

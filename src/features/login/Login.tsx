@@ -2,7 +2,7 @@ import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {loginTC} from "./auth-reducer";
+import {login} from "./auth-reducer";
 import {RootStateType} from "../../app/store";
 import {Redirect} from "react-router-dom";
 
@@ -39,8 +39,8 @@ export const Login = () => {
             }
             return errors;
         },
-        onSubmit: values => {
-            dispatch(loginTC(values))
+        onSubmit: (values) => {
+            dispatch(login(values))
             formik.resetForm()
         },
     })
@@ -55,12 +55,13 @@ export const Login = () => {
                     <FormLabel>
                         <p>To log in get registered
                             <a href={'https://social-network.samuraijs.com/'}
+                               rel="noreferrer"
                                target={'_blank'}>here
                             </a>
                         </p>
                         <p>or use common test account credentials:</p>
-                        <p>Email: free@samuraijs.com</p>
-                        <p>Password: free</p>
+                        <p>Email: <b>free@samuraijs.com</b></p>
+                        <p>Password: <b>free</b></p>
                     </FormLabel>
                     <FormGroup>
                         <TextField

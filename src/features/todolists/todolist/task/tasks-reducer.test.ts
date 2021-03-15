@@ -1,6 +1,5 @@
-import {addTask, removeTask, tasksReducer, TasksStateType, updateTaskAC} from './tasks-reducer';
+import {addTask, deleteTask, fetchTasks, tasksReducer, TasksStateType, updateTaskAC} from './tasks-reducer';
 import {TaskPriorities, TaskStatuses} from "../../../../dal/api";
-import {addTodolist} from "../../todolists-reducer";
 
 let startState: TasksStateType = {}
 
@@ -90,7 +89,9 @@ beforeEach(() => {
 
 test('correct task should be deleted from correct array', () => {
 
-    const action = removeTask({todoId: "todolistId2", taskId: "2"});
+    let param = {todoId: "todolistId2", taskId: "2"};
+
+    const action = deleteTask.fulfilled(param, 'requestId' , param);
 
     const endState = tasksReducer(startState, action)
 
@@ -206,6 +207,18 @@ test('title of specified task should be changed', () => {
     expect(endState["todolistId2"][1].title).toBe(newTitle);
     expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
 });
+test('tasks should be added for todolist', () => {
+
+    const action = fetchTasks.fulfilled({tasks: startState["todolistId1"], todoId: "todolistId1"}, 'requestId' , "todolistId1")
+
+    const endState = tasksReducer({
+        "todolistId1": [],
+        "todolistId2": []
+    }, action)
+
+    expect(endState["todolistId1"].length).toBe(3)
+    expect(endState["todolistId2"].length).toBe(0)
+})
 
 
 

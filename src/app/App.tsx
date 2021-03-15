@@ -32,7 +32,7 @@ function App({demo = false}: PropsType) {
 
     const logoutHandler = useCallback(() => {
         dispatch(logout())
-    }, [])
+    }, [dispatch])
 
     if (!isInitialized) {
         return <div
