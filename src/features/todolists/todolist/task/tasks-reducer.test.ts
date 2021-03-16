@@ -1,4 +1,4 @@
-import {addTask, deleteTask, fetchTasks, tasksReducer, TasksStateType, updateTaskAC} from './tasks-reducer';
+import {createTask, deleteTask, fetchTasks, tasksReducer, TasksStateType, updateTask} from './tasks-reducer';
 import {TaskPriorities, TaskStatuses} from "../../../../dal/api";
 
 let startState: TasksStateType = {}
@@ -164,8 +164,7 @@ test('correct task should be deleted from correct array', () => {
 
 });
 test('correct task should be added to correct array', () => {
-
-    const action = addTask({
+    const param = {
         task: {
             description: '',
             title: 'juce',
@@ -177,7 +176,9 @@ test('correct task should be added to correct array', () => {
             todoListId: "todolistId2",
             order: 0,
             addedDate: ''
-        }});
+        }
+    }
+    const action = createTask.fulfilled(param , "resolveId", {title: param.task.title, todoId: param.task.todoListId});
 
     const endState = tasksReducer(startState, action)
 
@@ -189,7 +190,9 @@ test('correct task should be added to correct array', () => {
 })
 test('status of specified task should be changed', () => {
 
-    const action = updateTaskAC({todoId: "todolistId2", taskId: "2", model: {status: TaskStatuses.New}});
+    const updateModal = {todoId: "todolistId2", taskId: "2",  domainModel: {status: TaskStatuses.New}}
+
+    const action = updateTask.fulfilled(updateModal, 'requestId', updateModal);
 
     const endState = tasksReducer(startState, action)
 
@@ -200,7 +203,9 @@ test('title of specified task should be changed', () => {
 
     const newTitle = "Some"
 
-    const action = updateTaskAC({todoId: "todolistId2",taskId: "2", model: {title: newTitle}});
+    const updateModel ={todoId: "todolistId2",taskId: "2", domainModel: {title: newTitle}}
+
+    const action = updateTask.fulfilled(updateModel, "requestId", updateModel);
 
     const endState = tasksReducer(startState, action)
 

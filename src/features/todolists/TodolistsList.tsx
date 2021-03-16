@@ -37,17 +37,22 @@ export const TodolistsList = ({demo = false}: PropsType) => {
 
     // добовление task
     const addTaskCallback = useCallback((title: string, todolistId: string) => {
-        dispatch(createTask(todolistId, title))
+        dispatch(createTask({todoId: todolistId, title: title}))
     }, [dispatch])
 
     // изменение фильтра task
     const changeTaskStatusCallback = useCallback((id: string, status: TaskStatuses, todolistId: string) => {
-        dispatch(updateTask(todolistId, id, {status}))
+        dispatch(updateTask({todoId: todolistId, taskId: id,
+        domainModel: {status : status}
+        }))
     }, [dispatch])
 
     // изменение заголовка task
     const changeTaskTitleCallback = useCallback((todolistId: string, id: string, newTitle: string,) => {
-        dispatch(updateTask(todolistId, id, {title: newTitle}))
+        dispatch(updateTask({todoId: todolistId, taskId: id,
+       domainModel: {
+            title: newTitle
+        }}))
     }, [dispatch])
 
     // удаление task

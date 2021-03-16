@@ -1,4 +1,4 @@
-import {appReducer, initialStateType, setAppError, setAppInitialized, setAppStatus} from "./App-reducer";
+import {appReducer, initializeApp, initialStateType, setAppError, setAppStatus} from "./App-reducer";
 
 
 let startState: initialStateType
@@ -12,7 +12,7 @@ beforeEach(() => {
 })
 test('property initial should be changed to true', () => {
 
-    const action = setAppInitialized({ value: true})
+    const action = initializeApp.fulfilled({value: true}, 'resolveId')
 
     const endState = appReducer(startState, action)
 

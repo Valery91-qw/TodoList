@@ -5,11 +5,11 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 //thunk
 export const login = createAsyncThunk('auth/login', async (param: LoginDataRequestType, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}))
-    try {
         const res = await authAPI.login(param)
+    try {
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
-            return {isLoggedIn: true}
+            return
         } else {
             handleServerAppError(res.data, thunkAPI.dispatch)
             return thunkAPI.rejectWithValue({error: res.data.messages[0]})
@@ -18,14 +18,14 @@ export const login = createAsyncThunk('auth/login', async (param: LoginDataReque
         handleServerNetworkError(error, thunkAPI.dispatch)
         return thunkAPI.rejectWithValue({error: error.message})
     }
-})
-export const logout = createAsyncThunk('auth/logout', async (arg, thunkAPI) => {
+});
+export const logout = createAsyncThunk('auth/logout', async (param, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status: 'loading'}))
-    try {
         let res = await authAPI.logout()
+    try {
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
-            return {isLoggedIn: false}
+            return
         } else {
             handleServerAppError(res.data, thunkAPI.dispatch)
             return thunkAPI.rejectWithValue({error: res.data.messages[0]})
@@ -48,10 +48,10 @@ const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(login.fulfilled, (state, action) => {
-                state.isLoggedIn = action.payload.isLoggedIn
+                state.isLoggedIn = true
         });
         builder.addCase(logout.fulfilled, (state, action) => {
-            state.isLoggedIn = action.payload.isLoggedIn
+            state.isLoggedIn = false
         });
     }
 })
