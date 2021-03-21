@@ -1,6 +1,6 @@
 import {authAPI} from "../dal/api";
 import {setIsLoggedIn} from "../features/login/auth-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {handleServerNetworkError} from "../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 //thunk
@@ -9,11 +9,10 @@ export const initializeApp = createAsyncThunk('app/initialize', async (arg, thun
         const res = await authAPI.me()
     try {
         if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(setIsLoggedIn({value: true}));
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
-        } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
+            thunkAPI.dispatch(setIsLoggedIn({value: true}));
         }
+        thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
         return {value: true}
     } catch (error) {
         handleServerNetworkError(error, thunkAPI.dispatch)

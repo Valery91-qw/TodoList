@@ -61,19 +61,19 @@ export const TodolistsList = ({demo = false}: PropsType) => {
     }, [dispatch])
     // удаление todolist
     const removeTodolistCallback = useCallback((id: string) => {
-        dispatch(deleteTodolis(id))
+        dispatch(deleteTodolis({todolistId: id}))
     }, [dispatch])
-    // изменение отоброжающихся тасок в todolist
+    // изменение фильтра todo
     const changeTodolistFilterCallback = useCallback((filter: FilterType, todolistId: string) => {
         dispatch(changeTodolistFilter({filter: filter, id: todolistId}))
     }, [dispatch])
     // изменение заголовка todolist
     const changeTodolistTitleCallback = useCallback((newTitle: string, todolistId: string) => {
-        dispatch(updateTodolis(todolistId, newTitle))
+        dispatch(updateTodolis({id: todolistId, title: newTitle}))
     }, [dispatch])
     // добовление todolist
     const addTodolistCallback = useCallback((title: string) => {
-        dispatch(createTodolist(title))
+        dispatch(createTodolist({title}))
     }, [dispatch])
 
     if(!isLoggedIn) {
